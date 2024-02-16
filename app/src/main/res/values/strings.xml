@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">LearningDemoApplication</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hilt_dependency_injection">Hilt Dependency Injection</string>
+    <string name="graphql">Graphql</string>
+    <string name="flow_demo">Flow Demo</string>
+</resources>

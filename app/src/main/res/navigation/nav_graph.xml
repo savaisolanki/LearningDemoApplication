@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/displayDataFragment"
+        android:name="com.example.learningdemoapplication.fragment.apicallusinggrapgql.ui.DisplayDataFragment"
+        android:label="DisplayDataFragment"
+        tools:layout="@layout/fragment_display_data" />
+    <fragment
+        android:id="@+id/productListFragment"
+        android:name="com.example.learningdemoapplication.fragment.apicallusingdi.ui.ProductListFragment"
+        android:label="ProductListFragment"
+        tools:layout="@layout/fragment_product_list" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.learningdemoapplication.fragment.mainfragment.ui.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_displayDataFragment"
+            app:destination="@id/displayDataFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_apiCallWithFlowFragment"
+            app:destination="@id/apiCallWithFlowFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_webViewDemoFragment"
+            app:destination="@id/webViewDemoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/apiCallWithFlowFragment"
+        android:name="com.example.learningdemoapplication.fragment.apicallusingflow.ui.ApiCallWithFlowFragment"
+        android:label="ApiCallWithFlowFragment">
+        <action
+            android:id="@+id/action_apiCallWithFlowFragment_to_updateDataFragment"
+            app:destination="@id/updateDataFragment">
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/webViewDemoFragment"
+        android:name="com.example.learningdemoapplication.webview.WebViewDemoFragment"
+        android:label="WebViewDemoFragment"
+        tools:layout="@layout/fragment_web_view_demo" />
+    <fragment
+        android:id="@+id/updateDataFragment"
+        android:name="com.example.learningdemoapplication.fragment.updatedata.UpdateDataFragment"
+        android:label="UpdateDataFragment"
+        tools:layout="@layout/fragment_update_data">
+
+    </fragment>
+
+</navigation>
