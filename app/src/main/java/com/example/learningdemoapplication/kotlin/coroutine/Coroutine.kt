@@ -1,4 +1,4 @@
-package com.example.learningdemoapplication.kotlin
+package com.example.learningdemoapplication.kotlin.coroutine
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow

@@ -16,7 +16,7 @@ data class PostResponse(
         @SerializedName("body")
         var body: String? = null,
         @SerializedName("id")
-        @PrimaryKey(autoGenerate = true) val id: Int,
+        @PrimaryKey(autoGenerate = true) val id: Int=0,
         @SerializedName("title")
         var title: String? = null,
         @SerializedName("userId")

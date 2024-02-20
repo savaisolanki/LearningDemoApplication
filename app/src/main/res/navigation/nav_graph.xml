@@ -41,6 +41,9 @@
             android:id="@+id/action_apiCallWithFlowFragment_to_updateDataFragment"
             app:destination="@id/updateDataFragment">
         </action>
+        <action
+            android:id="@+id/action_apiCallWithFlowFragment_to_addDataFragment"
+            app:destination="@id/addDataFragment" />
     </fragment>
     <fragment
         android:id="@+id/webViewDemoFragment"
@@ -54,5 +57,10 @@
         tools:layout="@layout/fragment_update_data">
 
     </fragment>
+    <fragment
+        android:id="@+id/addDataFragment"
+        android:name="com.example.learningdemoapplication.fragment.adddata.AddDataFragment"
+        android:label="fragment_add_data"
+        tools:layout="@layout/fragment_add_data" />
 
 </navigation>

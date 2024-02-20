@@ -1,8 +1,10 @@
 package com.example.learningdemoapplication.fragment.apicallusingdi.repository
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import com.example.learningdemoapplication.fragment.apicallusingdi.model.ProductResponse
 import com.example.learningdemoapplication.fragment.apicallusingflow.model.PostResponse
 import com.example.learningdemoapplication.network.api.AppInterfaceDummyJsonProduct
@@ -22,6 +24,9 @@ class ProductRepository @Inject constructor(
     private val dao: ApiCallDiInterfaceDao,
     @ApplicationContext private val context: Context
 ) {
+    /*
+    * get all products data
+    * */
     suspend fun getProduct(): Response<ProductResponse> {
         return appInterfaceDummyJsonProduct.getProducts()
     }
@@ -48,18 +53,65 @@ class ProductRepository @Inject constructor(
     }
 
     /*
+    * Insert Post
+    * */
+    suspend fun insertPost(post: PostResponse.PostResponseItem) {
+        dao.insertPost(post)
+    }
+
+    /*
+    * Update Post
+    * */
+    suspend fun updatePost(post: PostResponse.PostResponseItem) {
+        dao.updatePost(post)
+    }
+
+    /*
+    * fetch data and store in room
+    * */
+    suspend fun fetchDataAndStoreInDatabase() {
+        try {
+            val response = appInterfaceJsonPlacePost.getPostUsingFlow()
+
+            if (response.isNotEmpty()) {
+                dao.insertAll(response)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "fetchDataAndStoreInDatabase: Error fetching data", e)
+        }
+    }
+
+    /*
+    * get all posts data
+    * */
+    fun getAllData(): Flow<List<PostResponse.PostResponseItem>> {
+        return dao.getAllProducts()
+    }
+
+    /*
+    * delete items
+    * */
+    suspend fun deleteItem() {
+        dao.deletePost()
+    }
+
+    /*
+    * delete data by id
+    * */
+    suspend fun deletePostById(postId: Int) {
+        dao.deletePostById(postId)
+    }
+
+    /*
     * Internet Available or Not
     * */
     private fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
         val network = connectivityManager.activeNetwork ?: return false
         val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
         return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
-
-
 
 }
 

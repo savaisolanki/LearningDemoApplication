@@ -20,16 +20,13 @@ class LanchesAdapter(
         fun bind(position: Int, model: LaunchesQuery.Launch?) {
             binding.root.setOnClickListener {
                 onClick.invoke(position, model)
-
             }
-
             binding.productDataResponse = productList[position]
         }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-
         return ProductViewHolder(
             LanchesLayoutItemsBinding.inflate(
                 LayoutInflater.from(context),

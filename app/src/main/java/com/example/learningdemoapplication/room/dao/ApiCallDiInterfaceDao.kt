@@ -22,14 +22,34 @@ interface ApiCallDiInterfaceDao {
     suspend fun insertAll(posts: List<PostResponse.PostResponseItem>)
 
     /*
+    * insert  data in room
+    * */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPost(post: PostResponse.PostResponseItem)
+
+    /*
+     * Update  data in room
+     * */
+    @Update
+    suspend fun updatePost(post: PostResponse.PostResponseItem)
+
+    /*
     * get all data from room
     * */
     @Query("SELECT * FROM postresponseitem")
     fun getAllProducts(): Flow<List<PostResponse.PostResponseItem>>
 
-    @Delete
-    suspend fun deletePost(post: PostResponse.PostResponseItem)
+    /*
+    * delete data from room
+    * */
+    @Query("DELETE FROM postresponseitem")
+    suspend fun deletePost()
 
-    @Update
-    suspend fun updatePost(post: PostResponse.PostResponseItem)
+    /*
+     * delete data from room by id
+     * */
+    @Query("DELETE FROM postresponseitem WHERE id = :postId")
+    suspend fun deletePostById(postId: Int)
+
+
 }

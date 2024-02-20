@@ -17,18 +17,12 @@ class ProductViewModel @Inject constructor(private val productRepository: Produc
     ViewModel() {
 
     private val _response: MutableLiveData<ApolloResponse<LaunchesQuery.Data>> = MutableLiveData()
-
     val response: LiveData<ApolloResponse<LaunchesQuery.Data>>
         get() = _response
-
     fun getLaunchesData() {
-
         viewModelScope.launch(Dispatchers.IO) {
             val responseData = productRepository.getLaunchesData()
             _response.postValue(responseData)
-
         }
-
-
     }
 }

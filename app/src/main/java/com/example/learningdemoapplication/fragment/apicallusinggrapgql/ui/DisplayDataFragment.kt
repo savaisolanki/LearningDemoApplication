@@ -31,9 +31,7 @@ class DisplayDataFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_display_data, container, false)
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_display_data, container, false)
         return binding.root
     }
 
@@ -62,9 +60,5 @@ class DisplayDataFragment : Fragment() {
                 .show()
         }
         binding.rvData.adapter = lanchesAdapter
-
-
     }
-
-
 }

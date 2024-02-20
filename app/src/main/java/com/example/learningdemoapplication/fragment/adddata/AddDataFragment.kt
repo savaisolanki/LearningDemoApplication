@@ -1,4 +1,4 @@
-package com.example.learningdemoapplication.fragment.updatedata
+package com.example.learningdemoapplication.fragment.adddata
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,65 +10,52 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.learningdemoapplication.R
-import com.example.learningdemoapplication.databinding.FragmentUpdateDataBinding
+import com.example.learningdemoapplication.databinding.FragmentAddDataBinding
 import com.example.learningdemoapplication.fragment.apicallusingdi.viewmodel.ProductViewModel
 import com.example.learningdemoapplication.fragment.apicallusingflow.model.PostResponse
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class UpdateDataFragment : Fragment() {
-    private lateinit var binding: FragmentUpdateDataBinding
-    private val productViewModel: ProductViewModel by viewModels()
 
+@AndroidEntryPoint
+class AddDataFragment : Fragment() {
+    private lateinit var binding: FragmentAddDataBinding
+    private val productViewModel: ProductViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_update_data, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_data, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val args = arguments
-
-        if (args != null) {
-            val id = args.getInt("Id")
-            val title = args.getString("Tittle")
-            val body = args.getString("Body")
-            binding.etId.setText(id.toString())
-            binding.etTittle.setText(title)
-            binding.etDesc.setText(body)
-        }
-
-        binding.btnUpdate.setOnClickListener {
+        binding.btnAdd.setOnClickListener {
             validation()
         }
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
         }
     }
+
     /*
     * for validation
-    * check empty or not else update in room database
+    * check empty or not else add in room database
     * */
     private fun validation() {
-        if (binding.tvTittle.text.isEmpty()) {
-            binding.tvTittle.requestFocus()
+        if (binding.etTittle.text?.isEmpty() == true) {
+            binding.etTittle.requestFocus()
             Toast.makeText(requireContext(), "Please enter tittle", Toast.LENGTH_SHORT).show()
-        } else if (binding.tvDesc.text.isEmpty()) {
+        } else if (binding.etDesc.text?.isEmpty() == true) {
             Toast.makeText(requireContext(), "Please enter body", Toast.LENGTH_SHORT).show()
         } else {
-            val updatedPost = PostResponse.PostResponseItem(
-                id = binding.etId.text.toString().toInt(),
+            val addPost = PostResponse.PostResponseItem(
                 title = binding.etTittle.text.toString().trim(),
                 body = binding.etDesc.text.toString().trim()
             )
-            productViewModel.updatePostToRoom(updatedPost)
-            Toast.makeText(requireContext(), "Data Update SuccessFully", Toast.LENGTH_SHORT).show()
+            productViewModel.addPostToRoom(addPost)
+            Toast.makeText(requireContext(), "Data Add SuccessFully", Toast.LENGTH_SHORT).show()
             findNavController().popBackStack()
         }
 
     }
-
-
 }

@@ -1,9 +1,7 @@
 package com.example.learningdemoapplication.fragment.apicallusingflow.ui
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +17,6 @@ import com.example.learningdemoapplication.fragment.apicallusingdi.viewmodel.Pro
 import com.example.learningdemoapplication.fragment.apicallusingflow.adapter.ApiCallWithFlowProductAdapter
 import com.example.learningdemoapplication.fragment.apicallusingflow.model.PostResponse
 import com.example.learningdemoapplication.fragment.updatedata.UpdateDataFragment
-import com.example.learningdemoapplication.utils.ResponseHandler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -33,6 +30,13 @@ class ApiCallWithFlowFragment : Fragment() {
     private val productList = ArrayList<PostResponse.PostResponseItem>()
 
     private lateinit var productAdapter: ApiCallWithFlowProductAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        productViewModel.fetchDataAndStoreInDatabase()
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,22 +51,37 @@ class ApiCallWithFlowFragment : Fragment() {
     }
 
 
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        productViewModel.getAllPosts()
+        // productViewModel.getAllPosts()
         initRecyclerView()
         observeViewModel()
 
+        binding.btnAdd.setOnClickListener {
+            findNavController().navigate(R.id.action_apiCallWithFlowFragment_to_addDataFragment)
+        }
+
+        binding.btnDeleteAll.setOnClickListener {
+            productViewModel.deleteItemFromDatabase()
+            productList.clear()
+            productAdapter.notifyDataSetChanged()
+            Toast.makeText(requireContext(), "Delete All Post SuccessFully", Toast.LENGTH_SHORT)
+                .show()
+            binding.tvNoData.visibility = View.VISIBLE
+            binding.rvData.visibility = View.GONE
+            binding.btnAdd.visibility = View.GONE
+
+        }
     }
 
 
     private fun initRecyclerView() {
-
         productAdapter = ApiCallWithFlowProductAdapter(requireContext(), productList,
             { position, model ->
-                Toast.makeText(requireContext(), "Clicked item: ${productList[position].title}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${productList[position].id}", Toast.LENGTH_SHORT)
+                    .show()
             },
             { position, model ->
                 val bundle=Bundle()
@@ -70,13 +89,13 @@ class ApiCallWithFlowFragment : Fragment() {
                 bundle.putString("Tittle",model.title)
                 bundle.putString("Body",model.body)
                 val destinationFragment = UpdateDataFragment()
-
                 destinationFragment.arguments = bundle
-
                 findNavController().navigate(R.id.action_apiCallWithFlowFragment_to_updateDataFragment,bundle)
-
             },
             { position, model ->
+                productViewModel.deleteItemById(model.id)
+                Toast.makeText(requireContext(), "Delete Post SuccessFully", Toast.LENGTH_SHORT)
+                    .show()
 
             }
         )
@@ -85,6 +104,43 @@ class ApiCallWithFlowFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observeViewModel() {
+        lifecycleScope.launch {
+            productViewModel.isLoading.collect {
+                if (it) {
+                    binding.idLoadingPB.visibility = View.VISIBLE
+                } else {
+                    binding.idLoadingPB.visibility = View.GONE
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            productViewModel.allData.collect { data ->
+
+                if (data.isEmpty()) {
+                    binding.tvNoData.visibility = View.VISIBLE
+                    binding.rvData.visibility = View.GONE
+                    binding.btnDeleteAll.visibility = View.GONE
+                    binding.btnAdd.visibility = View.GONE
+                } else {
+                    binding.tvNoData.visibility = View.GONE
+                    binding.rvData.visibility = View.VISIBLE
+                    binding.btnDeleteAll.visibility = View.VISIBLE
+                    binding.btnAdd.visibility = View.VISIBLE
+
+
+                    productList.clear()
+                    productList.addAll(data)
+                    productAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+
+        /*
+        * this check when network connection is on or off
+        * */
+
+        /*
 
         lifecycleScope.launch {
             productViewModel.dataPost.collect {
@@ -116,5 +172,7 @@ class ApiCallWithFlowFragment : Fragment() {
                 }
             }
         }
+
+*/
     }
 }

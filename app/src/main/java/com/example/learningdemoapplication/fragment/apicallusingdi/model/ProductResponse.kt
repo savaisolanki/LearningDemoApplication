@@ -25,7 +25,6 @@ data class ProductResponse(
         var description: String? = null,
         @SerializedName("discountPercentage")
         var discountPercentage: Double? = null,
-
         @SerializedName("images")
         var images: List<String?>? = listOf(),
         @SerializedName("price")
