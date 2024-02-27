@@ -55,6 +55,23 @@
         android:name="com.example.learningdemoapplication.fragment.updatedata.UpdateDataFragment"
         android:label="UpdateDataFragment"
         tools:layout="@layout/fragment_update_data">
+        <argument
+            android:name="postItemsId"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="postItemsTittle"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="postItemsBody"
+            app:argType="string"
+            app:nullable="true" />
+
+
+
 
     </fragment>
     <fragment

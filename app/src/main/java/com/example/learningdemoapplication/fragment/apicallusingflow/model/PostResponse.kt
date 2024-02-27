@@ -1,10 +1,10 @@
 package com.example.learningdemoapplication.fragment.apicallusingflow.model
 
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-
 
 data class PostResponse(
     @SerializedName("postResponseItem")
@@ -21,8 +21,6 @@ data class PostResponse(
         var title: String? = null,
         @SerializedName("userId")
         var userId: Int? = null,
-
         val fromRoom: Boolean = false
-
     )
 }

@@ -25,6 +25,9 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Build Type
+
+
         binding.btnGraphql.setOnClickListener {
             val action = MainFragmentDirections.actionMainFragmentToDisplayDataFragment()
             findNavController().navigate(action)

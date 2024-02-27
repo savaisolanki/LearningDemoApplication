@@ -79,20 +79,26 @@ class ApiCallWithFlowFragment : Fragment() {
 
     private fun initRecyclerView() {
         productAdapter = ApiCallWithFlowProductAdapter(requireContext(), productList,
-            { position, model ->
+            { position, _ ->
                 Toast.makeText(requireContext(), "${productList[position].id}", Toast.LENGTH_SHORT)
                     .show()
             },
-            { position, model ->
-                val bundle=Bundle()
-                bundle.putInt("Id",model.id)
-                bundle.putString("Tittle",model.title)
-                bundle.putString("Body",model.body)
+            { _, model ->
+             /*   val bundle = Bundle()
+                bundle.putInt("Id", model.id)
+                bundle.putString("Tittle", model.title)
+                bundle.putString("Body", model.body)
                 val destinationFragment = UpdateDataFragment()
                 destinationFragment.arguments = bundle
-                findNavController().navigate(R.id.action_apiCallWithFlowFragment_to_updateDataFragment,bundle)
+                findNavController().navigate(
+                    R.id.action_apiCallWithFlowFragment_to_updateDataFragment,
+                    bundle
+                )*/
+
+                val action = ApiCallWithFlowFragmentDirections.actionApiCallWithFlowFragmentToUpdateDataFragment(model.id.toString(),model.title,model.body)
+                findNavController().navigate(action)
             },
-            { position, model ->
+            { _, model ->
                 productViewModel.deleteItemById(model.id)
                 Toast.makeText(requireContext(), "Delete Post SuccessFully", Toast.LENGTH_SHORT)
                     .show()
